@@ -10,8 +10,8 @@ Modified pages: categories and promotions
   
   ---
   Este xml estará disponível gratuitamente para futuras consultas e melhorias, obrigado! :)..
-  Estamos mudando a consulta para trazer os produtos com o maior número em estoque primeiro na lista geral e na listagem de produtos promocionais.
-  Veja que você pode alterar a consulta para trazer produtos com estoque com base na condição $sql. = "ORDER BY (p.quantity > 0) DESC,";
+  		Estamos mudando a consulta para trazer os produtos com o maior número em estoque primeiro na lista geral e na listagem de produtos promocionais.
+  		Veja que você pode alterar a consulta para trazer produtos com estoque com base na condição $sql. = "ORDER BY (p.quantity > 0) DESC,";
   "Esse segunda condição traz os itens sem o parametro de maior quantidade, e sim envia os itens esgotados para o fim da lista."
   
   Note que testamos essa condição baseando-se em uma versão limpa do pacote 3.0.3.2, 
