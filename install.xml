@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name><![CDATA[@REDS List products by quantity]]></name>
+  <code><![CDATA[reds-list-products-by-quantity]]></code>
+	<version><![CDATA[3.0]]></version>
+	<author><![CDATA[REDS]]></author>
+	<link><![CDATA[https://www.agenciaprai.com/]]></link>
+	<info><![CDATA[Put the products with the largest inventory in first and products sold out at the end of the display list.]]></info>
+	
+	<!--//
+	compatibility: oc 3xxx
+	modified pages: categories and promotions
+	This xml will be available for free on "Github" for future queries and improvements, thanks! :)
+	We are changing the query to bring the products with the highest number of products first in the general list
+	See that you can change the query to bring products with stock based on the condition $sql .= " ORDER BY (p.quantity > 0) DESC, ";
+	
+	 1 - Click on extensions > install > select the file you downloaded
+	 2 - then extensions > modifications "click update on the blue button in the upper right corner"
+   3 - In the panel home click on the gear in the upper right corner and select "update thema"
+	 4 - Enjoy, this should increase your sales!!!
+	//-->
+		
+	<file path="catalog/model/catalog/product.php" info="Put the products with the largest inventory in first and products sold out at the end of the display list.">
+		<operation error="skip" info="add query sort by quantity">
+			<search><![CDATA[if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {]]></search>
+			<add position="before"><![CDATA[
+			// @REDS 
+			$sql .= " ORDER BY (p.quantity) DESC, "; 
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$sql .= " ORDER BY (CASE WHEN special IS NOT NULL THEN special WHEN discount IS NOT NULL THEN discount ELSE p.price END)";]]></search>
+			<add position="replace"><![CDATA[$sql .= " (CASE WHEN special IS NOT NULL THEN special WHEN discount IS NOT NULL THEN discount ELSE p.price END)";]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$sql .= " ORDER BY " . $data['sort'];]]></search>
+			<add position="replace"><![CDATA[$sql .= $data['sort'];]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$sql .= " ORDER BY p.sort_order";]]></search>
+			<add position="replace"><![CDATA[$sql .= " p.sort_order ";]]></add>
+		</operation>
+	</file>
+</modification>
