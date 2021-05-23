@@ -25,8 +25,12 @@
 			<search><![CDATA[if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {]]></search>
 			<add position="before"><![CDATA[
 			// @REDS 
-			$sql .= " ORDER BY (p.quantity) DESC, "; 
+			$sql .= " ORDER BY (p.quantity > 0) DESC, ";
 			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$sql .= " ORDER BY LCASE(" . $data['sort'] . ")";]]></search>
+			<add position="replace"><![CDATA[$sql .= " LCASE(" . $data['sort'] . ")";]]></add>
 		</operation>
 		<operation error="skip">
 			<search><![CDATA[$sql .= " ORDER BY (CASE WHEN special IS NOT NULL THEN special WHEN discount IS NOT NULL THEN discount ELSE p.price END)";]]></search>
@@ -39,6 +43,17 @@
 		<operation error="skip">
 			<search><![CDATA[$sql .= " ORDER BY p.sort_order";]]></search>
 			<add position="replace"><![CDATA[$sql .= " p.sort_order ";]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/controller/product/{category,special}.php">
+		<operation error="skip">
+			<search><![CDATA[$sort = 'p.sort_order';]]></search>
+			<add position="replace"><![CDATA[$sort = 'p.quantity';]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$order = 'ASC';]]></search>
+			<add position="replace"><![CDATA[$order = 'DESC';]]></add>
 		</operation>
 	</file>
 </modification>
